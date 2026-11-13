@@ -1,15 +1,563 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Davies — independent designer and no-code developer." />
-    <link rel="icon" type="image/png" href="/assets/favicon.png" />
-    <title>Davies — One Page Portfolio</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anshul Jain</title>
+<meta name="description" content="Anshul Jain turns questions into things that work: a live client catalogue, satellite ML, an Android puzzle game, a Solana course and a campus printing business. Full-stack developer in Bengaluru.">
+<meta property="og:title" content="Anshul Jain turns questions into things that work">
+<meta property="og:description" content="Full-stack developer in Bengaluru. Paid client work, ML experiments, Android games and a printing business on the side.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://intelligentape.online/">
+<meta name="theme-color" content="#F3F4F6">
+<link rel="canonical" href="https://intelligentape.online/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..900&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Anshul Jain","jobTitle":"Full-stack developer","address":{"@type":"PostalAddress","addressLocality":"Bengaluru","addressCountry":"IN"},"email":"mailto:anshul.sancheti007@gmail.com","alumniOf":"IIT Madras","url":"https://intelligentape.online/","sameAs":["https://github.com/AnshulSancheti","https://www.linkedin.com/in/anshul-sancheti/"]}
+</script>
+<style>
+/* A workbench where questions get turned into working things.
+   Ink on cool white, one ultramarine accent used only where something is "live".
+   Left-aligned; motion lives in three places: the assembling headline, the question machine, the inventor/pragmatist switch. */
+:root {
+  --bg: #F3F4F6;
+  --surface: #FFFFFF;
+  --ink: #15161A;
+  --ink-2: #5A5D68;
+  --line: #D5D7DD;
+  --accent: #3B2BFF;
+  --sans: "Geist", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --s-1: .875rem;
+  --s0: 1.0625rem;
+  --s1: 1.375rem;
+  --s2: 2rem;
+  --s3: clamp(2.4rem, 5.4vw, 4rem);
+  --gutter: clamp(18px, 4vw, 56px);
+  --max: 1240px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: var(--s0); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -.035em; line-height: 1; text-wrap: balance; }
+h2 { font-size: var(--s3); }
+h3 { font-size: var(--s1); letter-spacing: -.02em; }
+p { margin: 0; max-width: 62ch; }
+button { font: inherit; color: inherit; }
+.wrap { width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; }
+.mono { font-family: var(--mono); }
+.muted { color: var(--ink-2); }
+
+/* nav */
+.nav { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color .3s; }
+.nav.scrolled { border-bottom-color: var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 16px; flex-wrap: wrap; }
+.mark { font-weight: 800; letter-spacing: -.03em; text-decoration: none; font-size: 1.1rem; }
+.nav ul { display: flex; gap: clamp(14px, 2.4vw, 30px); list-style: none; margin: 0; padding: 0; flex-wrap: wrap; align-items: center; }
+.nav ul a { text-decoration: none; color: var(--ink-2); font-weight: 500; transition: color .2s; }
+.nav ul a:hover { color: var(--ink); }
+.live { display: inline-flex; align-items: center; gap: 8px; font-size: var(--s-1); font-weight: 600; }
+.live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent); animation: pulse 2.2s infinite; }
+@keyframes pulse { 70% { box-shadow: 0 0 0 8px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+/* hero */
+.hero { position: relative; overflow: hidden; }
+#dots { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.hero .wrap { position: relative; padding-block: clamp(56px, 10vw, 128px) clamp(48px, 7vw, 88px); display: grid; gap: 32px; }
+.prompt { font-family: var(--mono); font-size: var(--s-1); color: var(--ink-2); }
+.prompt b { color: var(--accent); font-weight: 500; }
+.headline { font-size: clamp(3rem, 9.6vw, 8.6rem); font-weight: 850; letter-spacing: -.055em; line-height: .92; max-width: 13ch; }
+.headline .w { display: inline-block; white-space: nowrap; }
+.headline .c { display: inline-block; will-change: transform; }
+.headline .work { color: var(--accent); }
+.hero-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: end; }
+.hero-foot p { font-size: var(--s1); line-height: 1.4; color: var(--ink-2); }
+.hero-foot p strong { color: var(--ink); font-weight: 600; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; text-decoration: none; font-weight: 600; border: 1.5px solid var(--ink); background: transparent; cursor: pointer; position: relative; overflow: hidden; isolation: isolate; transition: color .3s; }
+.btn::before { content: ""; position: absolute; inset: 0; background: var(--ink); transform: translateY(101%); transition: transform .35s cubic-bezier(.7, 0, .2, 1); z-index: -1; }
+.btn:hover { color: var(--bg); }
+.btn:hover::before { transform: translateY(0); }
+.btn.solid { background: var(--ink); color: var(--bg); }
+.btn.solid::before { background: var(--accent); }
+
+section { padding-block: clamp(72px, 10vw, 136px) 0; }
+.sec-head { display: grid; gap: 14px; margin-bottom: clamp(32px, 4vw, 56px); }
+.sec-head p { color: var(--ink-2); font-size: var(--s1); line-height: 1.4; }
+
+/* question machine */
+.machine { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(20px, 3vw, 40px); align-items: stretch; }
+.qs { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--line); }
+.q { border-bottom: 1px solid var(--line); }
+.q button { width: 100%; text-align: left; background: none; border: 0; padding: 16px 4px 16px 0; cursor: pointer; display: grid; grid-template-columns: 1.6rem 1fr; gap: 8px; font-family: var(--mono); font-size: .95rem; line-height: 1.45; color: var(--ink-2); transition: color .2s, padding-left .3s; position: relative; }
+.q button::before { content: "?"; color: var(--line); font-weight: 600; transition: color .2s; }
+.q button:hover { color: var(--ink); padding-left: 6px; }
+.q.on button { color: var(--ink); padding-left: 6px; }
+.q.on button::before { content: ">"; color: var(--accent); }
+.q .bar { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
+.output { background: var(--ink); color: var(--bg); border-radius: 20px; padding: clamp(24px, 3.4vw, 44px); display: grid; align-content: space-between; gap: 32px; min-height: 460px; position: relative; overflow: hidden; }
+.output .grid-bg { position: absolute; inset: 0; opacity: .14; background-image: linear-gradient(var(--bg) 1px, transparent 1px), linear-gradient(90deg, var(--bg) 1px, transparent 1px); background-size: 32px 32px; -webkit-mask-image: radial-gradient(circle at 80% 20%, #000, transparent 70%); mask-image: radial-gradient(circle at 80% 20%, #000, transparent 70%); }
+.output > * { position: relative; }
+.out-top { display: flex; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: var(--s-1); color: #A6A8B3; flex-wrap: wrap; }
+.out-top .st { color: var(--bg); display: inline-flex; gap: 8px; align-items: center; }
+.out-top .st::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #7B70FF; }
+.out-name { font-size: clamp(2.4rem, 5.6vw, 4.6rem); font-weight: 850; letter-spacing: -.05em; line-height: .95; min-height: 1.9em; display: flex; align-items: flex-end; }
+.out-line { color: #C9CBD3; font-size: var(--s1); line-height: 1.4; }
+.out-metric { display: flex; gap: 16px; align-items: baseline; border-top: 1px solid #3A3C45; padding-top: 18px; flex-wrap: wrap; }
+.out-metric b { font-size: var(--s2); font-weight: 800; letter-spacing: -.03em; color: #fff; }
+.out-metric span { color: #A6A8B3; font-size: var(--s-1); max-width: 34ch; }
+.machine-note { margin-top: 18px; font-size: var(--s-1); color: var(--ink-2); }
+
+/* builds list */
+.builds { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--ink); }
+.build { border-bottom: 1px solid var(--line); }
+.build > button { width: 100%; background: none; border: 0; cursor: pointer; text-align: left; display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 2fr) minmax(0, 1.2fr) 2rem; gap: 20px; align-items: center; padding: 26px 0; }
+.build .name { font-size: clamp(1.6rem, 3.4vw, 2.6rem); font-weight: 800; letter-spacing: -.045em; line-height: 1; transition: transform .35s cubic-bezier(.2, .8, .2, 1), color .2s; }
+.build > button:hover .name { transform: translateX(10px); }
+.build .what { color: var(--ink-2); font-size: var(--s-1); line-height: 1.45; }
+.build .stat { font-family: var(--mono); font-size: var(--s-1); }
+.build .stat.livetag { color: var(--accent); }
+.build .plus { width: 2rem; height: 2rem; position: relative; justify-self: end; }
+.build .plus::before, .build .plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 1.5px; background: var(--ink); transform: translate(-50%, -50%); transition: transform .35s; }
+.build .plus::after { transform: translate(-50%, -50%) rotate(90deg); }
+.build.open .plus::after { transform: translate(-50%, -50%) rotate(0deg); }
+.build.open .name { color: var(--accent); }
+.detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s cubic-bezier(.2, .8, .2, 1); }
+.build.open .detail { grid-template-rows: 1fr; }
+.detail > div { overflow: hidden; }
+.detail-inner { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, .9fr); gap: clamp(20px, 3vw, 44px); padding: 4px 0 32px; }
+.detail h4 { margin: 0 0 8px; font-family: var(--mono); font-size: var(--s-1); font-weight: 500; color: var(--ink-2); }
+.detail .chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0 0 16px; padding: 0; }
+.detail .chips li { font-size: .8rem; border: 1px solid var(--line); background: var(--surface); padding: 3px 10px; border-radius: 999px; }
+.detail .links { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.detail .links a { font-weight: 600; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: var(--accent); }
+.peek { position: fixed; left: 0; top: 0; z-index: 30; pointer-events: none; background: var(--ink); color: var(--bg); border-radius: 14px; padding: 14px 18px; width: 230px; opacity: 0; transform: translate(-50%, -50%) scale(.85); transition: opacity .2s, transform .25s; display: grid; gap: 4px; }
+.peek.show { opacity: 1; transform: translate(18px, 18px) scale(1); }
+.peek b { font-size: 1.7rem; font-weight: 800; letter-spacing: -.03em; }
+.peek span { font-size: .8rem; color: #B5B7C0; line-height: 1.35; }
+
+/* two minds */
+.minds-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
+.switch { display: inline-flex; align-items: center; gap: 14px; background: none; border: 0; cursor: pointer; font-weight: 600; padding: 6px 0; }
+.switch .lbl { transition: color .3s; color: var(--ink-2); }
+.switch[aria-checked="false"] .lbl.a, .switch[aria-checked="true"] .lbl.b { color: var(--ink); }
+.track { width: 64px; height: 34px; border-radius: 999px; background: var(--ink); position: relative; }
+.knob { position: absolute; top: 4px; left: 4px; width: 26px; height: 26px; border-radius: 50%; background: var(--bg); transition: transform .45s cubic-bezier(.6, -0.3, .3, 1.4), background .3s; }
+.switch[aria-checked="true"] .knob { transform: translateX(30px); background: var(--accent); }
+.mind { display: none; }
+.mind.on { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: clamp(24px, 4vw, 64px); }
+.mind .quote { font-size: clamp(1.9rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.02; text-wrap: balance; }
+.mind ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.mind li { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.4fr); gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.mind li b { font-weight: 700; }
+.mind li span { color: var(--ink-2); }
+.mind.on li { animation: rise .55s cubic-bezier(.2, .8, .2, 1) both; }
+.mind.on li:nth-child(2) { animation-delay: .06s; }
+.mind.on li:nth-child(3) { animation-delay: .12s; }
+.mind.on li:nth-child(4) { animation-delay: .18s; }
+.mind.on .quote { animation: rise .55s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes rise { from { transform: translateY(18px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* spec sheet */
+.spec { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1.5px solid var(--ink); }
+.spec > div { padding: 24px 24px 28px 0; display: grid; gap: 10px; align-content: start; border-bottom: 1px solid var(--line); }
+.spec > div:not(:nth-child(3n+1)) { padding-left: 24px; border-left: 1px solid var(--line); }
+.spec h3 { font-family: var(--mono); font-size: var(--s-1); font-weight: 500; letter-spacing: 0; color: var(--ink-2); }
+.spec p, .spec li { font-size: var(--s0); }
+.spec ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+
+/* contact */
+.contact { padding-bottom: clamp(56px, 8vw, 96px); }
+.contact h2 { font-size: clamp(2.8rem, 8.4vw, 7.4rem); letter-spacing: -.055em; line-height: .92; max-width: 14ch; }
+.contact-row { display: flex; flex-wrap: wrap; gap: 20px 32px; align-items: center; justify-content: space-between; margin-top: 40px; padding-top: 28px; border-top: 1.5px solid var(--ink); }
+.email { font-size: clamp(1.15rem, 2.6vw, 1.7rem); font-weight: 700; letter-spacing: -.02em; text-decoration: none; background-image: linear-gradient(var(--accent), var(--accent)); background-size: 0 2px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .4s; word-break: break-all; }
+.email:hover { background-size: 100% 2px; }
+.copied { font-family: var(--mono); font-size: var(--s-1); color: var(--accent); min-height: 1.4em; margin-top: 10px; }
+footer { border-top: 1px solid var(--line); }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 24px; font-size: var(--s-1); color: var(--ink-2); }
+
+@media (max-width: 900px) {
+  .machine, .mind.on { grid-template-columns: 1fr; }
+  .output { order: -1; min-height: 380px; }
+  .hero-foot { grid-template-columns: 1fr; }
+  .build > button { grid-template-columns: minmax(0, 1fr) 2rem; gap: 6px 16px; }
+  .build .what { grid-column: 1; }
+  .build .stat { grid-column: 1; }
+  .build .plus { grid-row: 1; grid-column: 2; }
+  .detail-inner { grid-template-columns: 1fr; }
+  .spec { grid-template-columns: 1fr; }
+  .spec > div:not(:nth-child(3n+1)) { padding-left: 0; border-left: 0; }
+  .peek { display: none; }
+}
+@media (max-width: 560px) {
+  .mind li { grid-template-columns: 1fr; gap: 4px; }
+  .nav ul .hide-sm { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="mark" href="#top" id="top">Anshul Jain</a>
+    <ul>
+      <li class="hide-sm"><a href="#machine">Questions</a></li>
+      <li><a href="#builds">Builds</a></li>
+      <li class="hide-sm"><a href="#minds">Two minds</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><span class="live">Available now</span></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <canvas id="dots" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <p class="prompt">anshul@bengaluru <b>~</b> full-stack developer, IIT Madras</p>
+      <h1 class="headline" id="headline">I turn questions into things that <span class="work">work.</span></h1>
+      <div class="hero-foot">
+        <p>I get bored of ordinary ideas fast. So I build the unusual ones, then make them earn their keep: <strong>a live catalogue for a paying client</strong>, satellite ML, a puzzle game, a Solana course, and a printing business that made <strong>₹2.9 lakh</strong>.</p>
+        <div class="actions">
+          <a class="btn solid" href="#machine">Ask the machine</a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="machine" class="wrap" aria-labelledby="machine-title">
+    <div class="sec-head">
+      <h2 id="machine-title">Every build started as a question.</h2>
+      <p>Pick one and see what I made of it.</p>
+    </div>
+    <div class="machine">
+      <ul class="qs" id="qs"></ul>
+      <div class="output" aria-live="polite">
+        <div class="grid-bg" aria-hidden="true"></div>
+        <div class="out-top"><span id="out-kind">Paid client work</span><span class="st" id="out-status">Live</span></div>
+        <div>
+          <div class="out-name" id="out-name">Luminac</div>
+          <p class="out-line" id="out-line">An image pipeline that dresses up ~700 lighting products in room scenes, without ever regenerating the product itself.</p>
+        </div>
+        <div class="out-metric"><b id="out-num">~117 h → ~4 h</b><span id="out-num-label">estimated manual work, compared with batch generation plus review</span></div>
+      </div>
+    </div>
+    <p class="machine-note">It cycles on its own. Hover or pick a question to stop it.</p>
+  </section>
+
+  <section id="builds" class="wrap" aria-labelledby="builds-title">
+    <div class="sec-head">
+      <h2 id="builds-title">I start a lot of things. These ones shipped.</h2>
+      <p>Open any of them for the honest version: the idea, what actually happened, and what I built myself.</p>
+    </div>
+    <ul class="builds" id="build-list"></ul>
+  </section>
+
+  <section id="minds" class="wrap" aria-labelledby="minds-title">
+    <div class="minds-head">
+      <div class="sec-head" style="margin: 0;">
+        <h2 id="minds-title">Two people argue in my head.</h2>
+        <p>One wants to build what nobody has seen. The other wants to know if it's worth it.</p>
+      </div>
+      <button class="switch" id="switch" role="switch" aria-checked="false" aria-label="Switch between the inventor and the pragmatist">
+        <span class="lbl a">Inventor</span><span class="track"><span class="knob"></span></span><span class="lbl b">Pragmatist</span>
+      </button>
+    </div>
+
+    <div class="mind on" id="mind-inventor">
+      <p class="quote">"What if nobody's built this yet?"</p>
+      <ul>
+        <li><b>Puzzles that prove themselves</b><span>Facet Escape 3D generates a daily puzzle from a seed and checks it's solvable before you ever see it.</span></li>
+        <li><b>A flag hidden in a transaction</b><span>Solana Learn teaches blockchain by making you find a capture-the-flag answer in real Devnet program logs.</span></li>
+        <li><b>Rooftops from space</b><span>RoofIntel reads satellite imagery to estimate whether a roof is worth solar panels.</span></li>
+        <li><b>Block the feed, keep the app</b><span>ScrollMeter cuts off Reels and Shorts after your limit and leaves the rest of Instagram and YouTube alone.</span></li>
+      </ul>
+    </div>
+    <div class="mind" id="mind-pragmatist">
+      <p class="quote">"Cool. Does it work, and who pays for it?"</p>
+      <ul>
+        <li><b>Luminac pays me</b><span>Freelance from July 2026, salaried from August, now on retainer for the site I built.</span></li>
+        <li><b>₹2.9 lakh of T-shirts and posters</b><span>Clumzee and Postro: about ₹70,000 profit, ~1,500 tees, ~700 posters, one 500-shirt order.</span></li>
+        <li><b>₹1,000 became ~₹40,000</b><span>First place in a seven-day E-Cell challenge, with ₹26,000 gross profit.</span></li>
+        <li><b>~113 hours back</b><span>My rough estimate of the manual image work the Luminac pipeline replaced.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="spec" class="wrap" aria-labelledby="spec-title">
+    <div class="sec-head">
+      <h2 id="spec-title">The boring but important bit.</h2>
+    </div>
+    <div class="spec">
+      <div><h3>Looking for</h3><p>Full-stack, frontend, backend, forward-deployed, SDE, Android and ML roles. Remote or Bengaluru. I can start now.</p></div>
+      <div><h3>Strongest in</h3><p>MERN, Java and Python. Shipped for money with Next.js, TypeScript and Cloudflare Workers, D1 and R2.</p></div>
+      <div><h3>Also used</h3><p>PyTorch, MediaPipe, Android, Godot, Solana web3.js, the Perplexity and OpenAI APIs.</p></div>
+      <div><h3>Studying</h3><p>BSc in Data Science &amp; AI at IIT Madras, 2025 to 2029. CGPA 8.0.</p></div>
+      <div><h3>Podiums</h3><ul><li>1st, E-Cell entrepreneurship challenge</li><li>3rd, Hack with Vercel</li><li>3rd, college AI/ML Club hackathon</li></ul></div>
+      <div><h3>Sundays</h3><p>I teach maths to about 50 kids in Classes 4 to 10 at <a href="https://projectkitab.org/">Project Kitaab</a>.</p></div>
+    </div>
+    <p class="muted" style="margin-top: 20px; font-size: var(--s-1);">I build with AI coding tools like Codex and check the results on real data and real devices.</p>
+  </section>
+
+  <section id="contact" class="wrap contact" aria-labelledby="contact-title">
+    <h2 id="contact-title">Got a problem more interesting than mine?</h2>
+    <div class="contact-row">
+      <div>
+        <a class="email" href="mailto:anshul.sancheti007@gmail.com">anshul.sancheti007@gmail.com</a>
+        <p class="copied" id="copy-status" aria-live="polite"></p>
+      </div>
+      <div class="actions">
+        <button class="btn solid" type="button" id="copy-email">Copy email</button>
+        <a class="btn" href="https://github.com/AnshulSancheti">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/anshul-sancheti/">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Anshul Jain, Bengaluru</span>
+    <span>I start a lot of things. I finished this one.</span>
+  </div>
+</footer>
+
+<div class="peek" id="peek" aria-hidden="true"><b id="peek-num"></b><span id="peek-label"></span></div>
+
+<script>
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- data ---------- */
+const QUESTIONS = [
+  { q: "Can 700 product photos dress themselves up without changing the product?", kind: "Paid client work", status: "Live", name: "Luminac", line: "An image pipeline that dresses up ~700 lighting products in room scenes, without ever regenerating the product itself.", num: "~117 h → ~4 h", label: "estimated manual work, compared with batch generation plus review" },
+  { q: "Can a satellite photo tell you if a roof is worth solar panels?", kind: "Hackathon, team of two", status: "3rd place", name: "RoofIntel", line: "I built the ML pipeline and trained a U-Net to find rooftops in public satellite imagery.", num: "0.71", label: "Dice score on the test set" },
+  { q: "Can a puzzle game invent a new level every day and prove it's solvable?", kind: "Solo Android game", status: "On device", name: "Facet Escape 3D", line: "A 3D puzzle game with a 100-level campaign and daily puzzles generated from a seed.", num: "1,000 / 1,000", label: "seeds that produced a valid puzzle in the stress test" },
+  { q: "Can you learn crypto without learning it the expensive way?", kind: "Team project, primary app developer", status: "In progress", name: "Solana Learn", line: "Nine modules of hands-on Solana lessons, Devnet capture-the-flag challenges and scam simulations.", num: "14", label: "scam scenarios you can practise without a wallet" },
+  { q: "Why do I lose an hour to Reels when I only wanted five minutes?", kind: "Android app", status: "Built", name: "ScrollMeter", line: "Tracks Reels and Shorts on the phone and blocks just those feeds when you hit your daily limit.", num: "0", label: "data sent off the phone: tracking and limits run on-device" },
+  { q: "Can an extension tell you how much to trust a news article?", kind: "Hackathon, team of two", status: "3rd place", name: "Credibility check", line: "A browser extension that sends article text to Perplexity and shows a model's credibility estimate. I built the integration.", num: "3rd", label: "at Hack with Vercel" },
+  { q: "Can a phone camera count your squats?", kind: "Prototype, team of two", status: "Prototype", name: "Livia", line: "Pose tracking that counts reps for arm raises and squats, checked against manual counts.", num: "5–10", label: "people we compared its counts against" },
+  { q: "What actually happens after I press Enter in a terminal?", kind: "Learning build", status: "Built", name: "Java Shell", line: "A small Unix-like shell from scratch: parsing, built-ins, PATH lookup and running real programs.", num: "Java", label: "no libraries for the hard parts, which was the point" },
+  { q: "Could two students make real money printing T-shirts for college?", kind: "Business, co-founder", status: "Running", name: "Clumzee + Postro", line: "T-shirt and poster printing for college events and clubs. I run vendors, orders and delivery.", num: "₹2.9 lakh", label: "revenue so far, about ₹70,000 of it profit" }
+];
+
+const BUILDS = [
+  { name: "Luminac", what: "Lighting company website and image pipeline", stat: "Live, paid", live: true, peekNum: "~700", peekLabel: "products through the image pipeline",
+    idea: "A lighting company's whole catalogue, searchable down to the spec sheet, with product images that make themselves.",
+    real: "It's live at luminac.net. About 700 products went through the pipeline: an estimated 117 hours of manual work became about an hour of batch generation plus 2 to 3 hours of review. The hard part was keeping generated room scenes from changing the fittings, so the real product is cut out and composited, never regenerated.",
+    mine: "All of it, solo: frontend, TypeScript APIs, database, admin panel, spec search, deployment and the pipeline. Freelance from July 2026, salaried from August, now on retainer.",
+    stack: ["Next.js", "React", "TypeScript", "Cloudflare Workers", "D1", "R2", "OpenAI image editing"],
+    links: [["Visit luminac.net", "https://luminac.net"], ["Code", "https://github.com/AnshulSancheti/Luminac"]] },
+  { name: "Solana Learn", what: "A Solana course you learn by doing", stat: "In progress, live demo", live: true, peekNum: "30", peekLabel: "interactive lessons across 9 modules",
+    idea: "Learn blockchain by capturing flags on Devnet and spotting scams before they cost you anything.",
+    real: "Nine modules, 30 lessons, Devnet capture-the-flag exercises and 14 fictional scam scenarios. The demo is live; real-wallet flows still need more testing.",
+    mine: "I'm the primary app developer: the lesson engine and UI, wallet onboarding, scam simulations, and accounts with progress sync on Cloudflare Workers and D1. Teammates wrote the on-chain program and some earlier frontend.",
+    stack: ["React", "TypeScript", "Vite", "Tailwind", "Solana web3.js", "Cloudflare Workers + D1"],
+    links: [["Try the demo", "https://solana-learn.intelligentape.workers.dev"], ["Code", "https://github.com/leonewt0n/Solana-CTF-Sandbox"]] },
+  { name: "Facet Escape 3D", what: "Android 3D puzzle game", stat: "Solo, tested on device", peekNum: "100", peekLabel: "levels, plus a daily puzzle",
+    idea: "A puzzle game that makes a fresh puzzle every day and proves it can be solved.",
+    real: "The generator's stress test produced 1,000 valid puzzles from 1,000 seeds with zero failures. It has hints, undo, and offline saves with backup recovery. When black patches appeared on the cube, I traced it to materials and anti-aliasing and verified the fix on my phone over ADB. It isn't on the Play Store yet.",
+    mine: "Everything. Solo project.",
+    stack: ["Godot", "GDScript", "Android", "ADB"],
+    links: [["Code", "https://github.com/AnshulSancheti/Facet3D"]] },
+  { name: "RoofIntel", what: "Rooftop segmentation from satellite images", stat: "3rd place, hackathon", peekNum: "0.71", peekLabel: "Dice score on the test set",
+    idea: "Tell whether a roof is worth solar panels from a satellite photo, before anyone climbs up.",
+    real: "3rd place at the college AI/ML Club hackathon. The U-Net scored 0.71 Dice on the test set. The solar numbers are a first estimate, not a site survey.",
+    mine: "We were two. I built the full ML pipeline and trained the model.",
+    stack: ["Python", "PyTorch", "U-Net", "Streamlit"],
+    links: [["Code", "https://github.com/AnshulSancheti/RoofIntel"]] },
+  { name: "Credibility check", what: "News credibility browser extension", stat: "3rd place, Hack with Vercel", peekNum: "3rd", peekLabel: "at Hack with Vercel",
+    idea: "See how much to trust an article without leaving the page.",
+    real: "3rd place at Hack with Vercel. It shows a model-generated estimate, not a verified fact-check, and we said so.",
+    mine: "We were two. I built the integration that sends article text to the Perplexity API and brings the estimate back.",
+    stack: ["Browser extension", "Perplexity API"], links: [] },
+  { name: "Livia", what: "Rep counting from a phone camera", stat: "Prototype", peekNum: "2", peekLabel: "exercises: arm raises and squats",
+    idea: "Let a camera keep count of rehab exercises so nobody has to.",
+    real: "The pose tracking works for arm raises and squats, and we compared its counts with manual counts from 5 to 10 people. The rest of the app is still concepts.",
+    mine: "Shared with one teammate across the ML and app work.",
+    stack: ["Python", "MediaPipe"], links: [["Code", "https://github.com/AnshulSancheti/Livia"]] },
+  { name: "ScrollMeter", what: "Android app that limits Reels and Shorts", stat: "Built", peekNum: "2", peekLabel: "feeds blocked, the rest of the apps untouched",
+    idea: "Stop doomscrolling without deleting Instagram or YouTube.",
+    real: "It tracks Reels and Shorts, lets you set a daily limit, and blocks only those feeds once you hit it. Everything runs on the phone.",
+    mine: "Solo.", stack: ["Android", "AccessibilityService"], links: [] },
+  { name: "Java Shell", what: "A Unix-like shell from scratch", stat: "Learning build", peekNum: "0", peekLabel: "shortcuts: built to understand how shells work",
+    idea: "Find out what really happens when you type a command.",
+    real: "It has a read-eval loop, command parsing, built-in commands, PATH lookup and running external programs.",
+    mine: "Solo.", stack: ["Java"], links: [["Code", "https://github.com/AnshulSancheti/shell"]] }
+];
+
+/* ---------- headline assembly ---------- */
+(function assemble() {
+  const h = document.getElementById("headline");
+  const html = [];
+  h.childNodes.forEach(node => {
+    const isWork = node.nodeType === 1;
+    const text = node.textContent;
+    text.split(/(\s+)/).forEach(part => {
+      if (!part) return;
+      if (/^\s+$/.test(part)) { html.push(" "); return; }
+      const chars = [...part].map(c => `<span class="c">${c}</span>`).join("");
+      html.push(`<span class="w${isWork ? " work" : ""}">${chars}</span>`);
+    });
+  });
+  h.innerHTML = html.join("");
+  if (reduce) return;
+  const cs = h.querySelectorAll(".c");
+  cs.forEach((c, i) => {
+    const dx = (Math.random() - .5) * 420, dy = (Math.random() - .5) * 260, r = (Math.random() - .5) * 140;
+    c.animate([
+      { transform: `translate(${dx}px, ${dy}px) rotate(${r}deg)`, opacity: 0 },
+      { transform: "none", opacity: 1 }
+    ], { duration: 900 + Math.random() * 500, delay: 120 + i * 14, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" });
+  });
+})();
+
+/* ---------- reactive dot grid ---------- */
+(function dots() {
+  const cv = document.getElementById("dots"), ctx = cv.getContext("2d");
+  const hero = cv.parentElement;
+  let w, h, dpr, mx = -999, my = -999, raf = null;
+  const GAP = 26, R = 120;
+  function size() {
+    dpr = window.devicePixelRatio || 1;
+    w = hero.clientWidth; h = hero.clientHeight;
+    cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); draw();
+  }
+  function draw() {
+    raf = null; ctx.clearRect(0, 0, w, h);
+    for (let x = GAP / 2; x < w; x += GAP) for (let y = GAP / 2; y < h; y += GAP) {
+      const d = Math.hypot(x - mx, y - my), t = Math.max(0, 1 - d / R);
+      const ox = t ? (x - mx) / d * t * 8 : 0, oy = t ? (y - my) / d * t * 8 : 0;
+      ctx.beginPath(); ctx.arc(x + ox, y + oy, 1 + t * 2.2, 0, Math.PI * 2);
+      ctx.fillStyle = t > 0.02 ? `rgba(59,43,255,${0.25 + t * 0.6})` : "rgba(21,22,26,0.12)"; ctx.fill();
+    }
+  }
+  if (!reduce) hero.addEventListener("pointermove", e => {
+    const r = hero.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top;
+    if (!raf) raf = requestAnimationFrame(draw);
+  });
+  hero.addEventListener("pointerleave", () => { mx = my = -999; if (!raf) raf = requestAnimationFrame(draw); });
+  window.addEventListener("resize", size); size();
+})();
+
+/* ---------- text scramble ---------- */
+function scramble(el, to) {
+  if (reduce) { el.textContent = to; return; }
+  const glyphs = "!<>-_/[]{}=+*^?#01";
+  const from = el.textContent, len = Math.max(from.length, to.length);
+  const q = [];
+  for (let i = 0; i < len; i++) { const s = Math.floor(Math.random() * 14), e = s + 8 + Math.floor(Math.random() * 14); q.push({ from: from[i] || "", to: to[i] || "", s, e, ch: "" }); }
+  let f = 0; cancelAnimationFrame(el._raf);
+  (function tick() {
+    let out = "", done = 0;
+    q.forEach(o => {
+      if (f >= o.e) { done++; out += o.to; }
+      else if (f >= o.s) { if (!o.ch || Math.random() < .3) o.ch = glyphs[Math.floor(Math.random() * glyphs.length)]; out += o.ch; }
+      else out += o.from;
+    });
+    el.textContent = out;
+    if (done < q.length) { f++; el._raf = requestAnimationFrame(tick); }
+  })();
+}
+
+/* ---------- question machine ---------- */
+(function machine() {
+  const list = document.getElementById("qs");
+  QUESTIONS.forEach((d, i) => {
+    const li = document.createElement("li"); li.className = "q" + (i === 0 ? " on" : "");
+    li.innerHTML = `<button type="button" aria-pressed="${i === 0}"><span>${d.q}</span><span class="bar"></span></button>`;
+    list.appendChild(li);
+  });
+  const items = [...list.children];
+  const $ = id => document.getElementById(id);
+  let cur = 0, auto = true, barAnim = null;
+  const DUR = 5200;
+  function show(i, user) {
+    cur = i; const d = QUESTIONS[i];
+    items.forEach((li, k) => { li.classList.toggle("on", k === i); li.querySelector("button").setAttribute("aria-pressed", k === i); });
+    scramble($("out-name"), d.name);
+    $("out-kind").textContent = d.kind; $("out-status").textContent = d.status;
+    $("out-line").textContent = d.line; $("out-num").textContent = d.num; $("out-num-label").textContent = d.label;
+    if (!reduce) [$("out-line"), $("out-num")].forEach(el => el.animate([{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" }], { duration: 450, easing: "cubic-bezier(.2,.8,.2,1)" }));
+    if (barAnim) barAnim.cancel();
+    if (auto && !reduce) {
+      barAnim = items[i].querySelector(".bar").animate([{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], { duration: DUR, easing: "linear" });
+      barAnim.onfinish = () => { if (auto) show((cur + 1) % QUESTIONS.length); };
+    }
+  }
+  items.forEach((li, i) => li.querySelector("button").addEventListener("click", () => { auto = false; show(i, true); }));
+  const m = document.querySelector(".machine");
+  m.addEventListener("pointerenter", () => { if (barAnim) barAnim.pause(); });
+  m.addEventListener("pointerleave", () => { if (barAnim && auto) barAnim.play(); });
+  m.addEventListener("focusin", () => { auto = false; if (barAnim) barAnim.cancel(); });
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && auto && !barAnim) show(0); }), { threshold: .3 });
+  io.observe(m);
+})();
+
+/* ---------- builds list ---------- */
+(function builds() {
+  const ul = document.getElementById("build-list");
+  BUILDS.forEach((b, i) => {
+    const li = document.createElement("li"); li.className = "build";
+    const id = "build-" + i;
+    li.innerHTML = `
+      <button type="button" aria-expanded="false" aria-controls="${id}">
+        <span class="name">${b.name}</span>
+        <span class="what">${b.what}</span>
+        <span class="stat${b.live ? " livetag" : ""}">${b.stat}</span>
+        <span class="plus" aria-hidden="true"></span>
+      </button>
+      <div class="detail" id="${id}"><div><div class="detail-inner">
+        <div><h4>The idea</h4><p>${b.idea}</p></div>
+        <div><h4>What actually happened</h4><p>${b.real}</p></div>
+        <div><h4>What I built</h4><p style="margin-bottom:16px">${b.mine}</p>
+          <ul class="chips">${b.stack.map(s => `<li>${s}</li>`).join("")}</ul>
+          <div class="links">${b.links.map(([t, h]) => `<a href="${h}">${t}</a>`).join("")}</div></div>
+      </div></div></div>`;
+    ul.appendChild(li);
+    const btn = li.querySelector("button");
+    btn.addEventListener("click", () => { const open = li.classList.toggle("open"); btn.setAttribute("aria-expanded", open); });
+    btn.addEventListener("pointerenter", () => { if (li.classList.contains("open")) return; peekNum.textContent = b.peekNum; peekLabel.textContent = b.peekLabel; peek.classList.add("show"); });
+    btn.addEventListener("pointerleave", () => peek.classList.remove("show"));
+    btn.addEventListener("click", () => peek.classList.remove("show"));
+  });
+  const peek = document.getElementById("peek"), peekNum = document.getElementById("peek-num"), peekLabel = document.getElementById("peek-label");
+  if (window.matchMedia("(pointer: fine)").matches) {
+    let tx = 0, ty = 0, x = 0, y = 0;
+    window.addEventListener("pointermove", e => { tx = e.clientX; ty = e.clientY; });
+    (function follow() { x += (tx - x) * .18; y += (ty - y) * .18; peek.style.left = x + "px"; peek.style.top = y + "px"; requestAnimationFrame(follow); })();
+  }
+  ul.firstElementChild.querySelector("button").click();
+})();
+
+/* ---------- two minds switch ---------- */
+(function minds() {
+  const sw = document.getElementById("switch");
+  const inv = document.getElementById("mind-inventor"), prag = document.getElementById("mind-pragmatist");
+  sw.addEventListener("click", () => {
+    const p = sw.getAttribute("aria-checked") !== "true";
+    sw.setAttribute("aria-checked", p);
+    inv.classList.toggle("on", !p); prag.classList.toggle("on", p);
+  });
+})();
+
+/* ---------- nav + copy ---------- */
+const nav = document.getElementById("nav");
+window.addEventListener("scroll", () => nav.classList.toggle("scrolled", window.scrollY > 8), { passive: true });
+document.getElementById("copy-email").addEventListener("click", async () => {
+  const s = document.getElementById("copy-status");
+  try { await navigator.clipboard.writeText("anshul.sancheti007@gmail.com"); s.textContent = "Copied. Talk soon."; }
+  catch (e) { s.textContent = "Couldn't copy here. Select the address instead."; }
+});
+</script>
+</body>
 </html>
